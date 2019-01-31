@@ -1,6 +1,6 @@
 export const AppConfig: any = {
     server: {
-        port: 80,
+        port: 8088,
         basePath: '/api/v1'
     }
 };

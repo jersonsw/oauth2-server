@@ -1,7 +1,8 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
 import {ApiModelProperty} from "@nestjs/swagger";
-import {IsUrl, Length} from "class-validator";
+import {IsUrl, Length, Matches} from "class-validator";
 
+const urlRegex = new RegExp(/^((?:(https?):\/\/)?((?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.)(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])\.)(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9]))|(?:(?:(?:\w+\.){1,2}[\w]{2,3})))(?::(\d+))?((?:\/[\w]+)*)(?:\/|(\/[\w]+\.[\w]{3,4})|(\?(?:([\w]+=[\w]+)&)*([\w]+=[\w]+))?|\?(?:(wsdl|wadl))))$/ig);
 
 @Entity({schema: 'auth', name: 'clients'})
 export class Client {
@@ -30,11 +31,7 @@ export class Client {
 
     @ApiModelProperty({type: String, description: 'URL when the user will be redirected ', required: true})
     @Column({name: 'redirect_uris', type: 'simple-array', isArray: true, nullable: false})
-    @IsUrl({
-        require_protocol: true,
-        require_valid_protocol: true,
-        allow_underscores: true
-    }, {each: true, message: '"$value" is not a valid url'})
+    @Matches(urlRegex, {each: true, message: '"$value" is not a valid url'})
     redirectUris: string[];
 
     @Column({length: 500, nullable: false, default: 'read,write'})

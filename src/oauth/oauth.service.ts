@@ -1,24 +1,22 @@
-import {
-    BadRequestException, Component, ConflictException, InternalServerErrorException,
-    NotFoundException
-} from "@nestjs/common";
+import {BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {Client, User} from "./models";
 import {DbErrorCode} from "../enums/db-error-code.enum";
 
-@Component()
+@Injectable()
 export class OAuthService {
 
-    constructor(@InjectRepository(Client) private readonly clientsRepository: Repository<Client>, @InjectRepository(User) private readonly usersRepository: Repository<User>) {
-    }
+    constructor(@InjectRepository(Client) private readonly clientsRepository: Repository<Client>, @InjectRepository(User) private readonly usersRepository: Repository<User>) {}
 
     async createClient(client: Client): Promise<Client> {
 
         try {
             let c: Client = await this.clientsRepository.save(client);
+            console.log(c);
             return Promise.resolve(c);
         } catch (e) {
+            console.log(e);
             if (e.code) {
                 if (DbErrorCode.UNIQUE_VIOLATION == e.code) {
                     throw new BadRequestException("Sorry, already exists an client registered with the same name.");

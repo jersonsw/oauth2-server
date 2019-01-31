@@ -16,6 +16,6 @@ async function bootstrap() {
 
 bootstrap().then(() => {
     console.log("Application started on port: " + AppConfig.server.port);
-}, () => {
-    console.log("Unable to start the application.");
+}, (err) => {
+    console.log("Unable to start the application.",err);
 });

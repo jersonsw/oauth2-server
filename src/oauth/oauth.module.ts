@@ -11,7 +11,7 @@ import {ClientsController} from "./clients.controller";
 @Module({
     imports: [TypeOrmModule.forFeature([User, Client])],
     controllers: [OAuthController, UsersController, ClientsController],
-    components: [OAuthService]
+    providers: [OAuthService]
 })
 export class OAuthModule {
 }
