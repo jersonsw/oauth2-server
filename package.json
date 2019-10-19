@@ -22,7 +22,7 @@
     "redis": "^2.7.1",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^5.5.6",
-    "typeorm": "^0.1.12",
+    "typeorm": "^0.1.15",
     "typescript": "^2.6.2"
   },
   "devDependencies": {
